@@ -58,8 +58,8 @@ public class LoginPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//String userid = "14251104202";
 				//String userpass = "14251104202";
-			    String userid = jtName.getText();
-				String userpass = String.valueOf(jtPassword.getPassword());
+				String userid = jtName.getText();
+			    String userpass = String.valueOf(jtPassword.getPassword());
 				if(userid==null || "".equals(userid)){
 					JOptionPane.showMessageDialog(null, "用户id不能为空！", "提示", JOptionPane.DEFAULT_OPTION);
 				}

@@ -1,6 +1,7 @@
 package GUI;
-import Server.Server;
+import Server.*;
 import java.awt.BorderLayout;
+import java.awt.Button;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import java.awt.Color;
@@ -10,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
@@ -20,7 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.text.html.ImageView;
 
@@ -35,7 +40,7 @@ public class indexPage extends JFrame{
 	private NewButton btn5 = new NewButton("帮助",new ImageIcon("image/help.png")) ;	
 	private NewButton btn6 = new NewButton("发送消息",new ImageIcon("image/message.png")) ;	
 	private Server server = new Server();
-	
+	private TestJScrollPane tj = new TestJScrollPane();
     public indexPage(){
     	
     	JPanel p1 = new JPanel();
@@ -48,14 +53,40 @@ public class indexPage extends JFrame{
     	p1.add(btn5);
         this.setButton();
 
-
-    	
     	JPanel p2 = new JPanel();
     	p2.setLayout(new GridLayout(1,4));
         p2.setBorder(BorderFactory.createRaisedBevelBorder());
-    	
+       
+        JPanel p3 = new JPanel();
+        p3.setLayout(new GridLayout(2, 1));
+        
+        JTextArea jta1 = new JTextArea();
+        JTextArea jta2 = new JTextArea();
+        
+        jta1.setBorder(BorderFactory.createRaisedBevelBorder());
+        jta2.setBorder(BorderFactory.createRaisedBevelBorder());
+        jta1.setEditable(false);
+        //jta1.add
+        jta2.setEditable(false);
+        
+        JScrollPane jsp1 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jsp1.setViewportView(jta1);
+        JScrollPane jsp2 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jsp2.setViewportView(jta2);
+        
+        jta1.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));
+        jta1.revalidate();
+                
+        jta2.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));    
+        jta2.revalidate();
+        
+        p3.add(jsp1);
+        p3.add(jsp2);
+        
     	add(p1,BorderLayout.NORTH);
     	add(p2, BorderLayout.CENTER);
+    	add(p3, BorderLayout.EAST);
+
 
     }
     public void setButton(){
@@ -106,8 +137,8 @@ public class indexPage extends JFrame{
 			
 		});
     }
+    	
 	public static void createIndexPage() {
-		// TODO Auto-generated method stub
         JFrame frame = new indexPage();
         frame.setTitle("远程桌面监控系统");
         frame.setSize(screenSize);
