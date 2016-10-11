@@ -5,12 +5,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
-public class sendMessage {
+public class SendMessage {
    private Socket socket;
    private OutputStream os = null;
    private ByteArrayOutputStream bout = null;
    
-   public sendMessage(String string,String ip,int port){
+   public SendMessage(String string,String ip,int port){
        
 	   try{
 	       socket = new Socket(ip,port);

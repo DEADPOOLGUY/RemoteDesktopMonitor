@@ -8,13 +8,13 @@ import java.net.Socket;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-public class sendFile {
+public class SendFile {
 	private Socket socket;
     private DataOutputStream toServer;
     private DataInputStream fromServer;
     private FileInputStream fin = null;
 
-    public  sendFile(String ip,int port){
+    public  SendFile(String ip,int port){
 	try{
    	 
 		   socket = new Socket(ip,port);

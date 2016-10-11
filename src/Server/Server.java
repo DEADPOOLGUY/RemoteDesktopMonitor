@@ -1,5 +1,7 @@
 package Server;
 
+import javax.swing.JButton;
+
 public class Server{
 	static int MESSAGEPORT = 8889;
 	static int FILEPORT = 8888;
@@ -8,12 +10,16 @@ public class Server{
 		
 	}
 	
+	public void recImg(JButton[] jbtAry) {
+		ReciveImg ri = new ReciveImg();
+		ri.getImg(jbtAry);
+	}
 	public void sendMessage(String string) {
-       new sendMessage(string,"localhost",MESSAGEPORT);
+       new SendMessage(string,"localhost",MESSAGEPORT);
 	}
 	
 	public void sendFlie(){
-       new sendFile("localhost",FILEPORT);
+       new SendFile("localhost",FILEPORT);
 	}
 
 }

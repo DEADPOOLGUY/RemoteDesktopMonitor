@@ -33,17 +33,34 @@ import Server.Server;
 
 public class indexPage extends JFrame{
 	private static Dimension  screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+	private JPanel p1 = new JPanel();
+	private JPanel p2 = new JPanel();
+    private JPanel p3 = new JPanel();
 	private NewButton btn1 = new NewButton("远程开机与关机",new ImageIcon("image/mouse.png")) ;
 	private NewButton btn2 = new NewButton("注销",new ImageIcon("image/off.png")) ;
 	private NewButton btn3 = new NewButton("发送文件",new ImageIcon("image/flie.png")) ;
-	private NewButton btn4 = new NewButton("演示",new ImageIcon("image/Desktop.png")) ;
+	private NewButton btn4 = new NewButton("监控",new ImageIcon("image/Desktop.png")) ;
 	private NewButton btn5 = new NewButton("帮助",new ImageIcon("image/help.png")) ;	
 	private NewButton btn6 = new NewButton("发送消息",new ImageIcon("image/message.png")) ;	
 	private Server server = new Server();
+	private JButton[] jbtArray = new JButton[4];
 	private TestJScrollPane tj = new TestJScrollPane();
     public indexPage(){
     	
-    	JPanel p1 = new JPanel();
+        this.setButton();
+        this.setButtonFunction();
+
+        this.setCatchScreen();
+        
+        this.setSide();
+       
+    	add(p1,BorderLayout.NORTH);
+    	add(p2, BorderLayout.CENTER);
+    	add(p3, BorderLayout.EAST);
+
+
+    }
+    public void setButton(){
     	p1.setLayout(new GridLayout(1,6));
     	p1.add(btn1);
     	p1.add(btn3);
@@ -51,13 +68,21 @@ public class indexPage extends JFrame{
     	p1.add(btn4);
     	p1.add(btn2);
     	p1.add(btn5);
-        this.setButton();
-
-    	JPanel p2 = new JPanel();
-    	p2.setLayout(new GridLayout(1,4));
+        this.setButtonFunction();
+    }
+    
+    public void setCatchScreen() {
+    	p2.setLayout(new GridLayout(3,4));
         p2.setBorder(BorderFactory.createRaisedBevelBorder());
-       
-        JPanel p3 = new JPanel();
+		int i = 0; 
+		for(i = 0; i < 4; i++){
+			jbtArray[i] = new JButton();
+			p2.add(jbtArray[i]);
+		}
+		
+	}
+    
+    public void setSide(){
         p3.setLayout(new GridLayout(2, 1));
         
         JTextArea jta1 = new JTextArea();
@@ -82,14 +107,9 @@ public class indexPage extends JFrame{
         
         p3.add(jsp1);
         p3.add(jsp2);
-        
-    	add(p1,BorderLayout.NORTH);
-    	add(p2, BorderLayout.CENTER);
-    	add(p3, BorderLayout.EAST);
-
-
     }
-    public void setButton(){
+    
+    public void setButtonFunction(){
     	btn2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -119,6 +139,21 @@ public class indexPage extends JFrame{
 			}
 			
 		});
+    	
+    	btn4.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			   try {
+				ReciveImg.getImg(jbtArray);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			}
+			
+		});
+    	
         btn5.addActionListener(new ActionListener() {
 			
 			@Override
