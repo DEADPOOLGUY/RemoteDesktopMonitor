@@ -42,8 +42,11 @@ public class IndexPage extends JFrame{
 	private NewButton btn4 = new NewButton("监控",new ImageIcon("image/Desktop.png")) ;
 	private NewButton btn5 = new NewButton("帮助",new ImageIcon("image/help.png")) ;	
 	private NewButton btn6 = new NewButton("发送消息",new ImageIcon("image/message.png")) ;	
+    public JTextArea jta1 = new JTextArea();
+    public JTextArea jta2 = new JTextArea();
 	public Server server;
 	public JButton[] jbtArray = new JButton[4];
+	//public JButton[] jbtArray = new JButton[4];
 	private TestJScrollPane tj = new TestJScrollPane();
    
 	public IndexPage(Server server){
@@ -73,15 +76,16 @@ public class IndexPage extends JFrame{
     	p1.add(btn4);
     	p1.add(btn2);
     	p1.add(btn5);
-        this.setButtonFunction();
+
     }
     
     public void setCatchScreen() {
-    	p2.setLayout(new GridLayout(3,4));
+    	p2.setLayout(new GridLayout(2,4));
         p2.setBorder(BorderFactory.createRaisedBevelBorder());
 		int i = 0; 
 		for(i = 0; i < 4; i++){
 			jbtArray[i] = new JButton();
+			jbtArray[i].setBorder(BorderFactory.createRaisedBevelBorder());
 			p2.add(jbtArray[i]);
 		}
 		
@@ -89,10 +93,7 @@ public class IndexPage extends JFrame{
     
     public void setSide(){
         p3.setLayout(new GridLayout(2, 1));
-        
-        JTextArea jta1 = new JTextArea();
-        JTextArea jta2 = new JTextArea();
-        
+               
         jta1.setBorder(BorderFactory.createRaisedBevelBorder());
         jta2.setBorder(BorderFactory.createRaisedBevelBorder());
         jta1.setEditable(false);
@@ -122,7 +123,7 @@ public class IndexPage extends JFrame{
 			   try {
 				   if(0 == JOptionPane.showConfirmDialog(null, "是否要注销帐号？","提示",JOptionPane.YES_NO_OPTION)){
 				      setVisible(false); 
-				      LoginPage.createLoginPage();
+				      //LoginPage.createLoginPage();
 				   }
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
