@@ -31,7 +31,7 @@ import javax.swing.text.html.ImageView;
 
 import Server.Server;
 
-public class indexPage extends JFrame{
+public class IndexPage extends JFrame{
 	private static Dimension  screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 	private JPanel p1 = new JPanel();
 	private JPanel p2 = new JPanel();
@@ -42,11 +42,12 @@ public class indexPage extends JFrame{
 	private NewButton btn4 = new NewButton("监控",new ImageIcon("image/Desktop.png")) ;
 	private NewButton btn5 = new NewButton("帮助",new ImageIcon("image/help.png")) ;	
 	private NewButton btn6 = new NewButton("发送消息",new ImageIcon("image/message.png")) ;	
-	private Server server = new Server();
-	private JButton[] jbtArray = new JButton[4];
+	public Server server;
+	public JButton[] jbtArray = new JButton[4];
 	private TestJScrollPane tj = new TestJScrollPane();
-    public indexPage(){
-    	
+   
+	public IndexPage(Server server){
+    	this.server = server;
         this.setButton();
         this.setButtonFunction();
 
@@ -58,7 +59,11 @@ public class indexPage extends JFrame{
     	add(p2, BorderLayout.CENTER);
     	add(p3, BorderLayout.EAST);
 
-
+        setTitle("远程桌面监控系统");
+        setSize(screenSize);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
     public void setButton(){
     	p1.setLayout(new GridLayout(1,6));
@@ -145,7 +150,7 @@ public class indexPage extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			   try {
-				ReciveImg.getImg(jbtArray);
+				   server.recImg();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -174,12 +179,8 @@ public class indexPage extends JFrame{
     }
     	
 	public static void createIndexPage() {
-        JFrame frame = new indexPage();
-        frame.setTitle("远程桌面监控系统");
-        frame.setSize(screenSize);
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        //JFrame frame = new IndexPage();
+
 	}
 
 }

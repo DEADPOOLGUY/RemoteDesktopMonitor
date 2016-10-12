@@ -9,6 +9,8 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Administrator.*;
+import Server.Server;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -73,8 +75,9 @@ public class LoginPage extends JFrame {
 					try{
 						if(DAOFactory.getIUserDAOInstance().findLogin(user)){
 							JOptionPane.showMessageDialog(null, "用户 " + user.getName() + " 登录成功!", "提示", JOptionPane.DEFAULT_OPTION);
-							indexPage.createIndexPage();
 							setVisible(false);
+							new Server();
+							
 						} else {
 							JOptionPane.showMessageDialog(null, "用户名或密码错误！", "提示", JOptionPane.DEFAULT_OPTION);
 							jtName.setText("");
