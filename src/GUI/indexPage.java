@@ -45,9 +45,9 @@ public class IndexPage extends JFrame{
     public JTextArea jta1 = new JTextArea();
     public JTextArea jta2 = new JTextArea();
 	public Server server;
-	public JButton[] jbtArray = new JButton[4];
+	public NewButton[] jbtArray = new NewButton[15];
 	//public JButton[] jbtArray = new JButton[4];
-	private TestJScrollPane tj = new TestJScrollPane();
+	JScrollPane tj = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
    
 	public IndexPage(Server server){
     	this.server = server;
@@ -59,7 +59,7 @@ public class IndexPage extends JFrame{
         this.setSide();
        
     	add(p1,BorderLayout.NORTH);
-    	add(p2, BorderLayout.CENTER);
+    	add(tj, BorderLayout.CENTER);
     	add(p3, BorderLayout.EAST);
 
         setTitle("远程桌面监控系统");
@@ -80,14 +80,19 @@ public class IndexPage extends JFrame{
     }
     
     public void setCatchScreen() {
-    	p2.setLayout(new GridLayout(2,4));
+    	
+    	p2.setLayout(new GridLayout(3,5));
         p2.setBorder(BorderFactory.createRaisedBevelBorder());
 		int i = 0; 
-		for(i = 0; i < 4; i++){
-			jbtArray[i] = new JButton();
+		for(i = 0; i < 15; i++){
+			jbtArray[i] = new NewButton("客户端"+ (i+1),new ImageIcon("image/c"+ i%5 +".png"));
 			jbtArray[i].setBorder(BorderFactory.createRaisedBevelBorder());
 			p2.add(jbtArray[i]);
+			
 		}
+		tj.setViewportView(p2);
+		p2.setPreferredSize(new Dimension(400, 300));
+		tj.revalidate();
 		
 	}
     
@@ -102,14 +107,17 @@ public class IndexPage extends JFrame{
         
         JScrollPane jsp1 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jsp1.setViewportView(jta1);
+        jsp1.setPreferredSize(new Dimension(300, 200));
+        
         JScrollPane jsp2 = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         jsp2.setViewportView(jta2);
+        jsp2.setPreferredSize(new Dimension(300, 200));
         
-        jta1.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));
-        jta1.revalidate();
+        jsp1.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));
+        jsp1.revalidate();
                 
-        jta2.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));    
-        jta2.revalidate();
+        jsp2.setPreferredSize(new Dimension((int) (screenSize.getWidth()/5), (int) (screenSize.getHeight()/3)));    
+        jsp2.revalidate();
         
         p3.add(jsp1);
         p3.add(jsp2);

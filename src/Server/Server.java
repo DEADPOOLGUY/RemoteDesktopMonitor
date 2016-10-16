@@ -25,46 +25,66 @@ public class Server{
 	static int FILEPORT = 8888;
 	static int MESSAGEPORT = 8889;
 	HashMap<String, InetAddress> map = new HashMap<>();
-	static IndexPage indexPage;
+    IndexPage indexPage;
 	
 	public Server(){
 		indexPage = new IndexPage(this);
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException  {
 		 
 	     Server server = new Server();
 	     //server.recImg();
-	     //server.listenerForClients();
+	     Socket socket = new Socket("localhost", 8886);
+	     server.listenerForClients();
+	     server.receiveFile();
+	     server.receiveMessage();
 	     
 	}
 	
-	public void listenerForClients(){
-
-		try{
-			ServerSocket serverSocket = new ServerSocket(8000);
-			indexPage.jta1.append("Multi...Server started at " + new Date() + '\n');
-			
-			int clientNo = 1;
-			String key = "";
-			while(true){
-				Socket socket = serverSocket.accept();
-				InetAddress inetAddress = socket.getInetAddress();
-				key = String.valueOf(clientNo);
-				map.put(key, inetAddress);
-				MutliJtaThread mjt = new MutliJtaThread(indexPage.jta1,clientNo,inetAddress);
-				Thread t = new Thread(mjt);
-				t.start();
-				clientNo++;
-			}
-		}
-		catch(IOException exception){
-			System.err.println(exception);
-		}
+	public void receiveMessage() throws IOException{
+		
+		final ReceiveMessage rm = new ReceiveMessage(indexPage.jta1);
+		Thread th1 = new Thread(new Runnable() {
+				public void run() {
+					rm.receive();
+				} 
+	    });
+		th1.start();
+		//rf.receive();
+		
+	}
+	
+	public void receiveFile() throws IOException{
+		
+		final ReceiveFile rf = new ReceiveFile(indexPage.jta1);
+		Thread th1 = new Thread(new Runnable() {
+				public void run() {
+					rf.receive();
+				} 
+	    });
+		th1.start();
+		//rf.receive();
+		
+	}
+	
+	public void listenerForClients() throws IOException{
+		
+		final ListenerForClients lfc = new ListenerForClients(indexPage.jta1);
+		Thread th2 = new Thread(new Runnable() {
+			public void run() {
+				lfc.listen();
+			} 
+        });
+	    th2.start();
+		//lfc.listen();
+		
 	} 
 	
-	public void recImg() {
-		try {
+	public void recImg() throws IOException {
+		ReceiveImg ri = new ReceiveImg(indexPage.jbtArray);
+		ri.receive();
+		/*try {
 			ServerSocket ss = new ServerSocket(SCREENPORT);
 			Socket s;
 			while((s = ss.accept()) != null){
@@ -94,16 +114,16 @@ public class Server{
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public void sendMessage(String string) {
-       new SendMessage(string,"172.22.5.5",MESSAGEPORT);
+       new SendMessage(string,"localhost",MESSAGEPORT);
        //new SendMessage(string,"172.22.12.3",MESSAGEPORT);
 	}
 	
 	public void sendFlie(){
-       new SendFile("172.22.5.5",FILEPORT);
+       new SendFile("localhost",FILEPORT);
        //new SendFile("172.22.12.3",FILEPORT);
 	}
 
