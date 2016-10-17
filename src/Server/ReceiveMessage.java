@@ -33,8 +33,7 @@ public class ReceiveMessage {
 			
 		}
 	}
-}
-    class RecMessHandler implements Runnable{
+       class RecMessHandler implements Runnable{
          private Socket socket;
          JTextArea jta;
          
@@ -48,12 +47,13 @@ public class ReceiveMessage {
         	InputStream is = null;
         	try{
         	  is = socket.getInputStream();  
-              String msg = socket.getInetAddress().getAddress() + ": ";  
+              String ip = socket.getInetAddress().getHostAddress() + ": ";
+              String msg = ":";
               byte[] buf = new byte[1024*8]; 
               for(int len=is.read(buf);len>0;len=is.read(buf)){ 
                  msg+=new String(buf, 0, len); 
             }
-            jta.append(msg + "\n");
+            jta.append(ip + msg + "\n");
            }catch(IOException e){
         	   e.printStackTrace();
            }finally {
@@ -68,8 +68,8 @@ public class ReceiveMessage {
 		    }
         }
        }
-}  
-        
+   }  
+}
         
 
 

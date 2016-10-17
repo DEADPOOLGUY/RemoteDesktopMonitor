@@ -35,7 +35,7 @@ public class ReceiveImg {
 					System.out.println("图片接受失败");
 					continue;
 				}
-				bi = bi.getScaledInstance(320, 160, Image.SCALE_DEFAULT);//对图像进行压缩
+				bi = bi.getScaledInstance(jButtons[0].getWidth(), jButtons[0].getHeight(), Image.SCALE_DEFAULT);//对图像进行压缩
 				int index = 0;
 				//int index = ip[3];
 				//if(index == 5) index =0;
@@ -52,7 +52,7 @@ public class ReceiveImg {
 			
 		}
 	}
-}
+
     class Handler implements Runnable{
          int index;
          Image img;
@@ -72,6 +72,7 @@ public class ReceiveImg {
         
         
         
+    }
 }
 	/*public static void getImg(JButton[] jbtArray){
 		try {

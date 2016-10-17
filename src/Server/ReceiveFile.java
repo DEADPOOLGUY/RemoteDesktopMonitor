@@ -71,8 +71,8 @@ import javax.swing.JTextArea;
 		                fout.write(inputByte, 0, length);
 		                fout.flush();
 		            }
-		            jta.append("客户端："+socket.getInetAddress().getAddress()+"发来文件！\n");
-		            jta.append("已存放于E盘。");
+		            jta.append("客户端："+socket.getInetAddress().getHostAddress()+"发来文件！\n");
+		            jta.append("已存放于E盘。\n");
 		            System.out.println("完成接收");
 		        } catch (Exception ex) {
 		            ex.printStackTrace();

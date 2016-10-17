@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.swing.JTextArea;
 
@@ -11,8 +13,10 @@ public class ListenerForClients{
     private int port = 8886;
     private ServerSocket serverSocket;
     JTextArea jTextArea;
+	LinkedList<InetAddress> map = new LinkedList<InetAddress>();
     
-	public ListenerForClients(JTextArea jTextArea) throws IOException{
+	public ListenerForClients(JTextArea jTextArea,LinkedList<InetAddress> map) throws IOException{
+		this.map = map;
 		this.jTextArea = jTextArea;
     	serverSocket = new ServerSocket(port);
     	System.out.println("客户端IP地址监听服务器启动");
@@ -24,6 +28,7 @@ public class ListenerForClients{
 			Socket socket = null;
 			try{
 				socket = serverSocket.accept();
+				map.add(socket.getInetAddress());
 				Thread work = new Thread(new Handler(socket,jTextArea));
 				work.start();
 				work.interrupt();
@@ -46,7 +51,7 @@ public class ListenerForClients{
 		public void run() {
 			// TODO Auto-generated method stub
 			InetAddress inetAddress = socket.getInetAddress();
-			jTextArea.append("客户端IP:" + inetAddress.getAddress() + "已登录！\n");
+			jTextArea.append("客户端IP:" + inetAddress.getHostAddress() + "已登录！\n");
 			 
 			try {
 					if (socket != null)

@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.rmi.ServerError;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
@@ -24,7 +25,7 @@ public class Server{
 	static int SCREENPORT = 8887;
 	static int FILEPORT = 8888;
 	static int MESSAGEPORT = 8889;
-	HashMap<String, InetAddress> map = new HashMap<>();
+	LinkedList<InetAddress> map = new LinkedList<InetAddress>();
     IndexPage indexPage;
 	
 	public Server(){
@@ -35,7 +36,6 @@ public class Server{
 		 
 	     Server server = new Server();
 	     //server.recImg();
-	     Socket socket = new Socket("localhost", 8886);
 	     server.listenerForClients();
 	     server.receiveFile();
 	     server.receiveMessage();
@@ -70,7 +70,7 @@ public class Server{
 	
 	public void listenerForClients() throws IOException{
 		
-		final ListenerForClients lfc = new ListenerForClients(indexPage.jta1);
+		final ListenerForClients lfc = new ListenerForClients(indexPage.jta1,map);
 		Thread th2 = new Thread(new Runnable() {
 			public void run() {
 				lfc.listen();
@@ -82,8 +82,15 @@ public class Server{
 	} 
 	
 	public void recImg() throws IOException {
-		ReceiveImg ri = new ReceiveImg(indexPage.jbtArray);
-		ri.receive();
+		
+		
+		final ReceiveImg ri = new ReceiveImg(indexPage.jbtArray);
+		Thread th1 = new Thread(new Runnable() {
+				public void run() {
+					ri.receive();
+				} 
+	    });
+		th1.start();
 		/*try {
 			ServerSocket ss = new ServerSocket(SCREENPORT);
 			Socket s;
@@ -118,12 +125,12 @@ public class Server{
 	}
 	
 	public void sendMessage(String string) {
-       new SendMessage(string,"localhost",MESSAGEPORT);
+       new SendMessage(string,map.getFirst().getHostAddress(),MESSAGEPORT);
        //new SendMessage(string,"172.22.12.3",MESSAGEPORT);
 	}
 	
 	public void sendFlie(){
-       new SendFile("localhost",FILEPORT);
+       new SendFile(map.getFirst().getHostAddress(),FILEPORT);
        //new SendFile("172.22.12.3",FILEPORT);
 	}
 
