@@ -18,7 +18,7 @@ public class ScreenShotThread implements Runnable {
 	}
 	public void run() {
 		while(true){
-			ConnectServer cs = new ConnectServer("172.22.13.148", 8887);
+			ConnectServer cs = new ConnectServer("172.22.11.116", 8887);
 			if(cs.isConnected()){
 				Socket s = cs.getSocket();
 				BufferedImage bi = sc.screenShot();

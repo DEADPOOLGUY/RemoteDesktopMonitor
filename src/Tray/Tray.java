@@ -18,6 +18,7 @@ import java.io.IOException;
 import ActionPerfomed.ActionPerformed;
 import ClientFrame.ClientFrame;
 import ClientFrame.SelecteFileFrame;
+import FileReciveAndSend.SendFile;
 import Main.Main;
 
 public class Tray {
@@ -70,10 +71,7 @@ public class Tray {
 							FileInputStream fis = new FileInputStream(path);
 							content = new byte[fis.available()];
 							fis.read(content);*/
-							ActionPerformed sf1 = new ActionPerformed(e);
-							Thread t = new Thread(sf1);
-							t.start();
-							//Main.sendFile(sf1);
+							SendFile sf = new SendFile();
 				}
 			});
 			//

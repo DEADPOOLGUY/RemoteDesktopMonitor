@@ -2,6 +2,7 @@ package Main;
 import ActionPerfomed.ActionPerformed;
 import ConnectServer.ConnectServer;
 import FileReciveAndSend.ReciveFile;
+import FileReciveAndSend.SendFile;
 import ReciveMsg.ReciveMsg;
 import ScreenCapture.ScreenShotThread;
 import ScreenCapture.screenCapture;
@@ -26,6 +27,16 @@ public class Main {
 		ReciveFile rf = new ReciveFile();
 		Thread rfThread = new Thread(rf);
 		rfThread.start();
+		Socket sm;
+		try {
+			sm = new Socket("172.22.11.116",8886);
+		} catch (UnknownHostException e1) {
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO 自动生成的 catch 块
+			e1.printStackTrace();
+		}
 		//
 		ReciveMsg rm = new ReciveMsg();
 		rm.setVisible(false);
@@ -33,7 +44,7 @@ public class Main {
 			ServerSocket ss = new ServerSocket(8889);
 			Socket s;
 			while((s = ss.accept())!= null){
-				if(rm == null) rm = new ReciveMsg();
+				if(!rm.isActive()) rm = new ReciveMsg();
 				InputStream is = s.getInputStream();  
                 String msg = "老师" +":";  
                 byte[] buf = new byte[1024*8]; 
