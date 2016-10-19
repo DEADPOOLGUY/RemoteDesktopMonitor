@@ -7,6 +7,8 @@ package Server;
     import java.io.IOException;
     import java.net.ServerSocket;
     import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.swing.JTextArea;
 
@@ -14,23 +16,31 @@ import javax.swing.JTextArea;
 	    private int port = 8888;
 	    private ServerSocket serverSocket;
 	    JTextArea jta;
+	    String filePath;
+	    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(6);
 	    
-		public ReceiveFile(JTextArea jta) throws IOException{
+		public ReceiveFile(JTextArea jta,String filePath) throws IOException{
+			this.filePath = filePath;
 			this.jta = jta;
 	    	serverSocket = new ServerSocket(port);
 	    	System.out.println("文件接收服务器启动");
 
 	    }
         
+		public void setFilePath(String filePath){
+			this.filePath = filePath;
+		}
+		
 		public void receive(){
 			while (true) {
 				Socket socket = null;
 				try{
 					socket = serverSocket.accept();
 					System.out.println("文件接收连接成功！");
-					Thread work = new Thread(new Handler(socket,jta));
-					work.start();
-					work.interrupt();
+					Thread work = new Thread(new Handler(socket,jta,filePath));
+					//work.start();
+					fixedThreadPool.execute(work);
+
 					
 				}catch(IOException e){
 					e.printStackTrace();
@@ -42,8 +52,10 @@ import javax.swing.JTextArea;
 		class Handler implements Runnable{
 			private Socket socket;
 			JTextArea jta;
+			String filePath;
 			
-			private Handler(Socket socket,JTextArea jta){
+			private Handler(Socket socket,JTextArea jta,String filePath){
+				this.filePath = filePath;
 				this.socket = socket;
 				this.jta = jta;
 			}
@@ -56,8 +68,15 @@ import javax.swing.JTextArea;
 		        FileOutputStream fout = null;
 		        try {
 		            din = new DataInputStream(socket.getInputStream());
+		            System.out.println(filePath);
 		            
-		            fout = new FileOutputStream(new File("E:\\"+din.readUTF()));
+		           // if (filePath == null) {
+		            	fout = new FileOutputStream(new File("E:\\"+din.readUTF()));
+					//} else {
+						//fout = new FileOutputStream(new File(filePath + din.readUTF()));
+					//}
+		            
+		            //fout = new FileOutputStream(new File("E:\\"+din.readUTF()));
 		            inputByte = new byte[1024];
 		            System.out.println("开始接收数据...");
 		            while (true) {

@@ -13,9 +13,9 @@ public class ListenerForClients{
     private int port = 8886;
     private ServerSocket serverSocket;
     JTextArea jTextArea;
-	LinkedList<InetAddress> map = new LinkedList<InetAddress>();
+	HashMap<String, InetAddress> map = new HashMap<String,InetAddress>();
     
-	public ListenerForClients(JTextArea jTextArea,LinkedList<InetAddress> map) throws IOException{
+	public ListenerForClients(JTextArea jTextArea,HashMap<String,InetAddress> map) throws IOException{
 		this.map = map;
 		this.jTextArea = jTextArea;
     	serverSocket = new ServerSocket(port);
@@ -28,8 +28,7 @@ public class ListenerForClients{
 			Socket socket = null;
 			try{
 				socket = serverSocket.accept();
-				map.add(socket.getInetAddress());
-				Thread work = new Thread(new Handler(socket,jTextArea));
+				Thread work = new Thread(new Handler(socket,jTextArea,map));
 				work.start();
 				work.interrupt();
 				
@@ -43,7 +42,10 @@ public class ListenerForClients{
 	class Handler implements Runnable{
 		private Socket socket;
 		JTextArea jTextArea;
-		private Handler(Socket socket,JTextArea jTextArea){
+		HashMap<String,InetAddress> map = new HashMap<String,InetAddress>();
+		
+		private Handler(Socket socket,JTextArea jTextArea,HashMap<String,InetAddress> map){
+			this.map = map;
 			this.socket = socket;
 			this.jTextArea = jTextArea;
 		}
@@ -51,6 +53,9 @@ public class ListenerForClients{
 		public void run() {
 			// TODO Auto-generated method stub
 			InetAddress inetAddress = socket.getInetAddress();
+			byte[] ip = inetAddress.getAddress();
+			String index = String.valueOf(ip[2]);
+			map.put(index,socket.getInetAddress());
 			jTextArea.append("¿Í»§¶ËIP:" + inetAddress.getHostAddress() + "ÒÑµÇÂ¼£¡\n");
 			 
 			try {

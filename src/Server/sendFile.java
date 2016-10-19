@@ -16,8 +16,17 @@ public class SendFile {
 
     public  SendFile(String ip,int port){
 	try{
-   	 
+		   //long t1 = System.currentTimeMillis();
+		   
 		   socket = new Socket(ip,port);
+		   //socket.setSoTimeout(2000);
+		   
+		   //long t2 = System.currentTimeMillis();
+		   //if(t2-t1 >= 2000){
+			 //  System.out.println(t2-t1);
+			   //socket.close();
+		   //}
+		   
 		   fromServer = new DataInputStream(socket.getInputStream());
 	       toServer = new DataOutputStream(socket.getOutputStream());
 	       int length = 0;

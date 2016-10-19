@@ -2,6 +2,8 @@ package Server;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.io.*;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -15,14 +17,19 @@ public class ReceiveImg {
     private int port = 8887;
     private ServerSocket serverSocket;
     JButton[] jButtons;
+    int w;
+    int h;
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(6);
     
     public ReceiveImg(JButton[] jButtons) throws IOException{
 		this.jButtons = jButtons;
     	serverSocket = new ServerSocket(port);
     	System.out.println("屏幕监控服务器启动");
+    	w = (int)(4*jButtons[0].getWidth()/5);
+    	h = (int)(4*jButtons[0].getHeight()/5);
     }
     
-	public void receive(){
+	/*public void receive(){
 		while (true) {
 			Socket socket = null;
 			try{
@@ -35,7 +42,9 @@ public class ReceiveImg {
 					System.out.println("图片接受失败");
 					continue;
 				}
-				bi = bi.getScaledInstance(jButtons[0].getWidth(), jButtons[0].getHeight(), Image.SCALE_DEFAULT);//对图像进行压缩
+				//System.out.println(jButtons[0].getWidth()+ "+" +jButtons[0].getHeight());
+				bi = bi.getScaledInstance(w, h, Image.SCALE_DEFAULT);//对图像进行压缩
+				//bi = bi.getScaledInstance(218, 160, Image.SCALE_DEFAULT);
 				int index = 0;
 				//int index = ip[3];
 				//if(index == 5) index =0;
@@ -51,9 +60,67 @@ public class ReceiveImg {
 			}
 			
 		}
-	}
+	}*/
+    
+    public void receive(){
+		while (true) {
+			Socket socket = null;
+			try{
+				socket = serverSocket.accept();
+				
+				Thread work = new Thread(new Handler(socket, jButtons));
+				fixedThreadPool.execute(work);
 
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			
+		}
+	}
+    
     class Handler implements Runnable{
+        JButton[] jButtons;
+        Socket socket;
+        
+        public Handler(Socket socket,JButton[] jButtons) {
+        	 this.jButtons = jButtons;
+			 this.socket = socket;
+	         
+       }
+        
+       public void run(){
+    	   try{
+			byte[] ip = socket.getInetAddress().getAddress();
+			System.out.println("连接成功");
+			InputStream is = socket.getInputStream();
+			Image bi = ImageIO.read(is);
+			if(bi == null){
+				System.out.println("图片接受失败");
+				//continue;
+			}
+			//System.out.println(jButtons[0].getWidth()+ "+" +jButtons[0].getHeight());
+			bi = bi.getScaledInstance(w, h, Image.SCALE_DEFAULT);//对图像进行压缩
+			//bi = bi.getScaledInstance(218, 160, Image.SCALE_DEFAULT);
+			int index = 0;
+			//int index = ip[3];
+			//if(index == 5) index =0;
+			
+			//if(index >= 100) index -=140;
+			//if(index >= 25) index -=25;
+			
+			System.out.println("接受成功");
+	        jButtons[index].setIcon(new ImageIcon(bi));
+    	   }catch(IOException e){
+    		   e.printStackTrace();
+    	   }
+       }
+       
+       
+       
+   }
+	
+    /*class Handler implements Runnable{
          int index;
          Image img;
          JButton[] jbtAry;
@@ -72,7 +139,7 @@ public class ReceiveImg {
         
         
         
-    }
+    }*/
 }
 	/*public static void getImg(JButton[] jbtArray){
 		try {

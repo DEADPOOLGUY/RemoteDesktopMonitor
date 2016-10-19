@@ -48,7 +48,7 @@ public class ReceiveMessage {
         	try{
         	  is = socket.getInputStream();  
               String ip = socket.getInetAddress().getHostAddress() + ": ";
-              String msg = ":";
+              String msg = "";
               byte[] buf = new byte[1024*8]; 
               for(int len=is.read(buf);len>0;len=is.read(buf)){ 
                  msg+=new String(buf, 0, len); 
