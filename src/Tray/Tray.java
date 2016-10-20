@@ -15,11 +15,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.sound.midi.ShortMessage;
+
 import ActionPerfomed.ActionPerformed;
 import ClientFrame.ClientFrame;
 import ClientFrame.SelecteFileFrame;
 import FileReciveAndSend.SendFile;
 import Main.Main;
+import MsgReciveAndSend.SendMsg;
 
 public class Tray {
 	public Tray(){
@@ -74,10 +77,19 @@ public class Tray {
 							SendFile sf = new SendFile();
 				}
 			});
+			sendMessage.addActionListener(new ActionListener(){
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					// TODO 自动生成的方法存根
+					SendMsg sm = new SendMsg("192.168.1.128");
+				}
+				
+			});
 			//
 			menu.add(helpdoc);
 			menu.add(sendFile);
-			//menu.add(open);
+			menu.add(sendMessage);
 			menu.add(exit);
 			TrayIcon trayIcon = new TrayIcon(img, "远程桌面监控系统", menu);
 			try {

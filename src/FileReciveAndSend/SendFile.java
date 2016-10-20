@@ -16,7 +16,7 @@ import ConnectServer.ConnectServer;
 
 public class SendFile {
 	public SendFile(){
-		ConnectServer cs = new ConnectServer("172.22.11.116",8888);
+		ConnectServer cs = new ConnectServer("172.22.0.95",8881);
 		Socket s = cs.getSocket();
 		SelecteFileFrame sff = new SelecteFileFrame();
 		File file = sff.getPath();

@@ -20,7 +20,7 @@ import javax.swing.JTextArea;
 public class SendMsg{
 	public SendMsg(final String ip){
 		final Socket s;
-		JFrame msgForm;
+		final JFrame msgForm;
 		try {
 			s = new Socket(ip,8889);
 			s.setSoTimeout(30000);
@@ -69,6 +69,8 @@ public class SendMsg{
 							DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 							dos.write(msg.getBytes());
 							dos.flush();
+							msgTxtArea.setText("");
+							msgForm.dispose();
 							JOptionPane.showMessageDialog(null, "发送成功", "提醒", JOptionPane.DEFAULT_OPTION);
 						} catch (IOException e1) {
 							// TODO Auto-generated catch block
@@ -90,7 +92,7 @@ public class SendMsg{
 			});
 		} catch (SocketException e2) {
 			// TODO Auto-generated catch block
-			JOptionPane.showConfirmDialog(null, "连接服务器超时");
+			JOptionPane.showMessageDialog(null, "连接服务器超时", "错误消息", JOptionPane.DEFAULT_OPTION);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
