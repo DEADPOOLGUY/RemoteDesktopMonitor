@@ -33,7 +33,7 @@ public class Main {
 		rfThread.start();
 		Socket sm;
 		try {
-			while((sm = new Socket("192.168.1.128",8886)) != null){
+			while((sm = new Socket("172.18.34.58",8886)) != null){
 				System.out.println("连接成功");
 				break;
 			}
