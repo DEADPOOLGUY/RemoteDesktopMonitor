@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import javax.swing.JTextArea;
 
 	public class ReceiveFile  {
-	    private int port = 8888;
+	    private int port = 8881;
 	    private ServerSocket serverSocket;
 	    JTextArea jta;
 	    String filePath;

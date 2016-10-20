@@ -140,9 +140,20 @@ public class Server{
 	}
 	
 	public void sendFlie(){
-		for(String key:map.keySet()){
-       new SendFile(map.get(key).getHostAddress(),FILEPORT);}
-       //new SendFile("172.22.12.3",FILEPORT);
+		/*final SendFile sf = new SendFile(map);
+		Thread th1 = new Thread(new Runnable() {
+				public void run() {
+					sf.send();
+				} 
+	    });*/
+		//th1.start();
+		//SendFile sf = new SendFile(map);
+		//sf.send();
+		/*for(String key:map.keySet()){
+			new SendFile(map.get(key).getHostAddress(),FILEPORT);
+		    //System.out.println(key +":"+ map.get(key));
+		}*/
+		new SendFile(FILEPORT,map);
 	}
 
 }

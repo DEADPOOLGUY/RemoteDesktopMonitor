@@ -91,7 +91,10 @@ public class ReceiveImg {
         
        public void run(){
     	   try{
-			byte[] ip = socket.getInetAddress().getAddress();
+			String ip = socket.getInetAddress().getHostAddress();
+			int sindex = ip.lastIndexOf('.');
+		    ip = ip.substring(sindex+1);
+		    
 			System.out.println("连接成功");
 			InputStream is = socket.getInputStream();
 			Image bi = ImageIO.read(is);
@@ -102,12 +105,13 @@ public class ReceiveImg {
 			//System.out.println(jButtons[0].getWidth()+ "+" +jButtons[0].getHeight());
 			bi = bi.getScaledInstance(w, h, Image.SCALE_DEFAULT);//对图像进行压缩
 			//bi = bi.getScaledInstance(218, 160, Image.SCALE_DEFAULT);
-			int index = 0;
-			//int index = ip[3];
+			
+			int index =  Integer.valueOf(ip).intValue();
+			//int index = ip[3]+1;
 			//if(index == 5) index =0;
 			
-			//if(index >= 100) index -=140;
-			//if(index >= 25) index -=25;
+			if(index >= 100) index -=130;
+			//if(index >= 25) index -=24;
 			
 			System.out.println("接受成功");
 	        jButtons[index].setIcon(new ImageIcon(bi));

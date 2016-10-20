@@ -53,9 +53,13 @@ public class ListenerForClients{
 		public void run() {
 			// TODO Auto-generated method stub
 			InetAddress inetAddress = socket.getInetAddress();
-			byte[] ip = inetAddress.getAddress();
-			String index = String.valueOf(ip[2]);
-			map.put(index,socket.getInetAddress());
+			String ip = inetAddress.getHostAddress();
+			int index = ip.lastIndexOf('.');
+		    ip = ip.substring(index+1);
+
+			System.out.println(ip);
+			//String sindex = String.valueOf(index);
+			map.put(ip,socket.getInetAddress());
 			jTextArea.append("¿Í»§¶ËIP:" + inetAddress.getHostAddress() + "ÒÑµÇÂ¼£¡\n");
 			 
 			try {
