@@ -55,7 +55,7 @@ public class IndexPage extends JFrame{
     public JTextArea jta2 = new JTextArea();
     JList jl = new JList();
 	public Server server;
-	public NewButton[] jbtArray = new NewButton[60];
+	public NewButton[] jbtArray = new NewButton[40];
 	//public JButton[] jbtArray = new JButton[4];
 	JScrollPane tj = new JScrollPane(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
    
@@ -95,7 +95,7 @@ public class IndexPage extends JFrame{
     public void setCatchScreen() {
     	tj.setBorder(BorderFactory.createTitledBorder("фад╩╪Ю©ь"));
         //tj.setBorder(BorderFactory.createRaisedBevelBorder());
-    	p2.setLayout(new GridLayout(15,4));
+    	p2.setLayout(new GridLayout(10,4));
         p2.setBorder(BorderFactory.createRaisedBevelBorder());
 		int i = 0; 
 		for(i = 0; i < jbtArray.length; i++){
