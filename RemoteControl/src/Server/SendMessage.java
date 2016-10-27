@@ -3,20 +3,26 @@ package Server;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SendMessage {
    private Socket socket;
    private OutputStream os = null;
    private ByteArrayOutputStream bout = null;
    
-   public SendMessage(String string,String ip,int port){
+   public SendMessage(String string,HashMap<String,InetAddress> map,int port){
        
 	   try{
-	       socket = new Socket(ip,port);
-		   os =  socket.getOutputStream();
-		   os.write(string.getBytes());
-		   os.flush();   
+		   for(String key:map.keySet()){
+		       socket = new Socket(map.get(key).getHostAddress(),port);
+			   os =  socket.getOutputStream();
+			   os.write(string.getBytes());
+			   os.flush();     
+		   }
+
 	   }
 	   
 	   catch(IOException ex){

@@ -87,73 +87,34 @@ public class Server{
 		
 		
 		final ReceiveImg ri = new ReceiveImg(indexPage.jbtArray);
-		final Thread th1 = new Thread(new Runnable() {
+		Thread  thRec = new Thread(new Runnable() {
 				public void run() {
 					ri.receive();
 				} 
 	    });
-		th1.start();
-		
-		/*try {
-			ServerSocket ss = new ServerSocket(SCREENPORT);
-			Socket s;
-			while((s = ss.accept()) != null){
-				byte[] ip = s.getInetAddress().getAddress();
-				System.out.println("连接成功");
-				InputStream is = s.getInputStream();
-				Image bi = ImageIO.read(is);
-				if(bi == null){
-					System.out.println("图片接受失败");
-					continue;
-				}
-				bi = bi.getScaledInstance(320, 160, Image.SCALE_DEFAULT);//对图像进行压缩
-				
-				//ISMap.put(ip, bi);
-				//System.out.println(ip);
-				
-				int index = ip[3];
-				if(index == 5) index =0;
-				
-				//if(index >= 100) index -=140;
-				//if(index >= 25) index -=25;
-				ReciveImgThread rit = new ReciveImgThread(index, bi, indexPage.jbtArray);
-				Thread t = new Thread(rit);
-				t.start();
-				System.out.println("接受成功");
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-	}
+		thRec.start();
 	
-	public void stopRecImg(){
 		
 	}
+		
+	public void stopRecImg(){       
+		System.out.println("");
+	}
 	
-	public void sendMessage(String string) {
-		for(String key:map.keySet()){
-		    new SendMessage(string,map.get(key).getHostAddress(),MESSAGEPORT);
-		    System.out.println(key +":"+ map.get(key));
-		}
-       //new SendMessage(string,"localhost",MESSAGEPORT);
+	public void sendShutDown() {		
+		    new SendMessage("shutdown",map,MESSAGEPORT);
+	}	
+	
+	public void sendSleep() {		
+	    new SendMessage("sleep",map,MESSAGEPORT);
+    }
+	
+	public void sendMessage(String string) {	
+		    new SendMessage(string,map,MESSAGEPORT);	
 	}
 	
 	public void sendFlie(){
-		/*final SendFile sf = new SendFile(map);
-		Thread th1 = new Thread(new Runnable() {
-				public void run() {
-					sf.send();
-				} 
-	    });*/
-		//th1.start();
-		//SendFile sf = new SendFile(map);
-		//sf.send();
-		/*for(String key:map.keySet()){
-			new SendFile(map.get(key).getHostAddress(),FILEPORT);
-		    //System.out.println(key +":"+ map.get(key));
-		}*/
-		new SendFile(FILEPORT,map);
+		 	new SendFile(FILEPORT,map);
 	}
 
 }

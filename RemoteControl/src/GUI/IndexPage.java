@@ -193,6 +193,20 @@ public class IndexPage extends JFrame{
     	
 		    });*/
     	   //}
+    	btn1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			   try {
+				    server.sendShutDown();
+				   
+			   } catch (Exception e1) {
+				// TODO Auto-generated catch block
+				   e1.printStackTrace();
+			   }
+			}
+			
+		});
     	btn2.addActionListener(new ActionListener() {
 			
 			@Override
@@ -202,10 +216,10 @@ public class IndexPage extends JFrame{
 				      setVisible(false); 
 				      //LoginPage.createLoginPage();
 				   }
-			} catch (Exception e1) {
+			   } catch (Exception e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				   e1.printStackTrace();
+			   }
 			}
 			
 		});
@@ -214,11 +228,11 @@ public class IndexPage extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			   try {
-				server.sendFlie();
-			} catch (Exception e1) {
+				   server.sendFlie();
+			   } catch (Exception e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
+				   e1.printStackTrace();
+			   }
 			}
 			
 		});
@@ -237,7 +251,8 @@ public class IndexPage extends JFrame{
 						flag = 0;
 					}
 			   } else {
-                    //flag = 1;
+				    server.stopRecImg();
+                    flag = 1;
 			     }
 
 			}

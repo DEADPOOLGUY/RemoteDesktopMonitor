@@ -61,6 +61,14 @@ public class ReceiveImg {
 			
 		}
 	}*/
+    public void stop(){
+    	try {
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     public void receive(){
 		while (true) {
@@ -110,7 +118,7 @@ public class ReceiveImg {
 			//int index = ip[3]+1;
 			//if(index == 5) index =0;
 			
-			if(index >= 100) index -=130;
+			if(index >= 100) index -=110;
 			//if(index >= 25) index -=24;
 			
 			System.out.println("接受成功");
