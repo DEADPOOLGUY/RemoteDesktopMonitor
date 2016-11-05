@@ -5,7 +5,8 @@ package Server;
 	import java.io.File;
 	import java.io.FileOutputStream;
     import java.io.IOException;
-    import java.net.ServerSocket;
+import java.net.InetAddress;
+import java.net.ServerSocket;
     import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,8 +20,8 @@ import javax.swing.JTextArea;
 	    String filePath;
 	    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(6);
 	    
-		public ReceiveFile(JTextArea jta,String filePath) throws IOException{
-			this.filePath = filePath;
+		public ReceiveFile(JTextArea jta) throws IOException{
+			//this.filePath = filePath;
 			this.jta = jta;
 	    	serverSocket = new ServerSocket(port);
 	    	System.out.println("文件接收服务器启动");
@@ -90,7 +91,11 @@ import javax.swing.JTextArea;
 		                fout.write(inputByte, 0, length);
 		                fout.flush();
 		            }
-		            jta.append("客户端："+socket.getInetAddress().getHostAddress()+"发来文件！\n");
+		  			InetAddress inetAddress = socket.getInetAddress();
+		  			String ip = inetAddress.getHostAddress();
+		  			int index = ip.lastIndexOf('.');
+		  		    ip = ip.substring(index+1);
+		            jta.append("客户端"+ip+"发来文件！\n");
 		            jta.append("已存放于E盘。\n");
 		            System.out.println("完成接收");
 		        } catch (Exception ex) {

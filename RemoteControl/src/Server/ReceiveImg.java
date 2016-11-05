@@ -14,19 +14,26 @@ import javax.imageio.ImageIO;
 
 public class ReceiveImg {
 	
-    private int port = 8887;
+    private int port = 8887;//屏幕监控服务器端口为8887
     private ServerSocket serverSocket;
     JButton[] jButtons;
     int w;
     int h;
-    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(6);
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(6);//建立可容纳6个线程的线程池
     
-    public ReceiveImg(JButton[] jButtons) throws IOException{
-		this.jButtons = jButtons;
-    	serverSocket = new ServerSocket(port);
-    	System.out.println("屏幕监控服务器启动");
-    	w = (int)(4*jButtons[0].getWidth()/5);
-    	h = (int)(4*jButtons[0].getHeight()/5);
+    public ReceiveImg(JButton[] jButtons) {
+    	try{
+    		this.jButtons = jButtons;
+        	serverSocket = new ServerSocket(port);
+        	System.out.println("屏幕监控服务器启动");
+
+    	}catch(IOException exception){
+    		exception.printStackTrace();
+    	}finally{
+        	w = (int)(4*jButtons[0].getWidth()/5);//规定每个屏幕监控功能的显示按钮的宽度
+        	h = (int)(4*jButtons[0].getHeight()/5);//规定每个屏幕监控功能的显示按钮的长度
+    	}
+
     }
     
 	/*public void receive(){

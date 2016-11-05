@@ -60,7 +60,7 @@ public class ListenerForClients{
 			System.out.println(ip);
 			//String sindex = String.valueOf(index);
 			map.put(ip,socket.getInetAddress());
-			jTextArea.append("客户端IP:" + inetAddress.getHostAddress() + "已登录！\n");
+			jTextArea.append("客户端" + ip + "已登录！\n");
 			 
 			try {
 					if (socket != null)

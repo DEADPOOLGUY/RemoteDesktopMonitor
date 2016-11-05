@@ -21,38 +21,24 @@ import javax.swing.JOptionPane;
 public class SendFile {
 	private Socket socket;
     private DataOutputStream toServer;
-    private DataInputStream fromServer;
     private FileInputStream fin = null;
 
     public  SendFile(int port,HashMap<String,InetAddress> map){
 	
     	try{
-		   //long t1 = System.currentTimeMillis();
-		   
-
-		   //socket.setSoTimeout(2000);
-		   
-		   //long t2 = System.currentTimeMillis();
-		   //if(t2-t1 >= 2000){
-			 //  System.out.println(t2-t1);
-			   //socket.close();
-		   //}
-		   
-
 	       int length = 0;
 	       byte[] sendByte = null;
 		   JFileChooser fileChooser = new JFileChooser();
 	       
 	       if(fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
-	    	java.io.File file = fileChooser.getSelectedFile();
-			 for(String key:map.keySet()){			
+	    	java.io.File file = fileChooser.getSelectedFile();//文件选择
+			 for(String key:map.keySet()){//根据传入的存储用户ip信息的hashmap实现循环发送			
 			    socket = new Socket(map.get(key).getHostAddress(),port);
-			    fromServer = new DataInputStream(socket.getInputStream());
-		        toServer = new DataOutputStream(socket.getOutputStream());
-	    	    fin = new FileInputStream(file);
+		        toServer = new DataOutputStream(socket.getOutputStream());//初始化数据输出流
+	    	    fin = new FileInputStream(file);//初始化文件输入流
 	    	    sendByte = new byte[1024];
 	    	    toServer.writeUTF(file.getName());
-	    	    while((length = fin.read(sendByte, 0, sendByte.length))>0){
+	    	    while((length = fin.read(sendByte, 0, sendByte.length))>0){//实现文件发送
 	    		      toServer.write(sendByte, 0, length);
 	    		      toServer.flush();
 	    	    }
@@ -70,8 +56,6 @@ public class SendFile {
 			       fin.close();
 			    if(toServer != null)
 				   toServer.close();
-				if(fromServer != null)
-				   fromServer.close();
 				if(socket != null)
 				   socket.close();
 		} catch (Exception e) {
