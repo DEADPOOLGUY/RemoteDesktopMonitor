@@ -1,5 +1,6 @@
 package Main;
 
+import Broadcasting.BroadCasting;
 import ConnectServer.ConnectServer;
 import FileReciveAndSend.ReciveFile;
 import FileReciveAndSend.SendFile;
@@ -12,6 +13,8 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import sendIP.SendIP;
 
 public class Main {
 
@@ -31,20 +34,13 @@ public class Main {
 		t1.start();*/
 		Thread rfThread = new Thread(rf);
 		rfThread.start();
-		Socket sm;
-		try {
-			while((sm = new Socket("172.18.35.39",8886)) != null){
-				System.out.println("连接成功");
-				break;
-			}
-		} catch (UnknownHostException e1) {
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO 自动生成的 catch 块
-			e1.printStackTrace();
-		}
 		//
 		ReciveMsg rm = new ReciveMsg();
+		Thread rmt = new Thread(rm);
+		rmt.start();
+		//
+		SendIP si = new SendIP();
+		BroadCasting bc = new BroadCasting();
+		
 	}
 }

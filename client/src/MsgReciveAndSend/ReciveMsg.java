@@ -16,8 +16,7 @@ import java.io.InputStream;
 public class ReciveMsg implements Runnable{
 	//private JTextArea jta = new JTextArea();
     public ReciveMsg(){
-    	Thread t = new Thread(this);
-    	t.start();
+    	
     }
 	/*public ReciveMsg(){
 		setLayout(new BorderLayout());
@@ -55,16 +54,27 @@ public class ReciveMsg implements Runnable{
 	public void run() {
 		// TODO 自动生成的方法存根
 		try {
-			ServerSocket ss = new ServerSocket(8889);
+			System.out.println("接收消息线程开始");
+			ServerSocket ss = new ServerSocket(8003);
 			Socket s;
-			while((s = ss.accept())!= null){
+			while(true){
+				s = ss.accept();
+				System.out.println("接受到服务端的消息连接");
 				InputStream is = s.getInputStream();
 				byte[] buf = new  byte[1024*8];
-				String msg = "老师 ：";
+				String msg = "";
 				for(int len=is.read(buf);len>0;len=is.read(buf)){ 
-	                msg+=new String(buf, 0, len); 
-	                } 
-				JOptionPane.showMessageDialog(null, msg, "来自老师的消息", JOptionPane.DEFAULT_OPTION);
+				//int len = is.read(buf);
+				msg += new String(buf, 0, len);
+	            System.out.print(len);
+	                }
+				if(msg.equals("shutdown")){
+					Runtime rt = Runtime.getRuntime();
+					Process p = rt.exec("rundll32.exe powrProf.dll, SetSuspendState");
+					JOptionPane.showMessageDialog(null, "您的计算机受到远程关机控制，将在60s后关机，请保存好文件！", "提示", JOptionPane.DEFAULT_OPTION);
+				}else{
+					JOptionPane.showMessageDialog(null, msg, "来自老师的消息", JOptionPane.DEFAULT_OPTION);
+				}
 			}
 		} catch (IOException e) {
 			// TODO 自动生成的 catch 块

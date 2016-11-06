@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
@@ -18,12 +19,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class SendMsg{
-	public SendMsg(final String ip){
+	public SendMsg(){
 		final Socket s;
 		final JFrame msgForm;
 		try {
-			s = new Socket(ip,8889);
-			s.setSoTimeout(30000);
+			s = new Socket("172.22.11.116",8002);
+			//s.setSoTimeout(30000);
 			msgForm = new JFrame("发送消息");
 			msgForm.setVisible(true);
 			msgForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,14 +62,15 @@ public class SendMsg{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String msg = msgTxtArea.getText();
+					OutputStream os = null;
 					if(msg.equals(null)){
 						JOptionPane.showMessageDialog(null, "消息不能为空", "错误消息", JOptionPane.DEFAULT_OPTION);
 					}
 					else{
 						try {
-							DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-							dos.write(msg.getBytes());
-							dos.flush();
+							os = s.getOutputStream();
+							os.write(msg.getBytes());
+							os.flush();
 							msgTxtArea.setText("");
 							msgForm.setVisible(false);
 							JOptionPane.showMessageDialog(null, "发送成功", "提醒", JOptionPane.DEFAULT_OPTION);

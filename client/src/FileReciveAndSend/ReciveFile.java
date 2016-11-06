@@ -18,9 +18,10 @@ public class ReciveFile implements Runnable {
 	public void run() {
 		// TODO 自动生成的方法存根
 		try {
-			ServerSocket ss = new ServerSocket(8888);
+			ServerSocket ss = new ServerSocket(8001);
 			Socket s;
 			while((s =ss.accept()) != null){
+				System.out.println("文件接收端口有连接");
 				byte[] inputByte = null;
 		        int length = 0;
 		        DataInputStream din = null;

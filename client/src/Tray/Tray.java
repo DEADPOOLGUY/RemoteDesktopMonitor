@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -35,7 +36,15 @@ public class Tray {
 			//图标和工具栏
 			//URL imgURL1 = Tray.class.getResource("/tray.png"); 
 			//ImageIcon img = new ImageIcon(imgURL1); 
-			Image img = Toolkit.getDefaultToolkit().getImage("image/tray.png");
+			//Image img = Toolkit.getDefaultToolkit().getImage("image/tray.png");
+			InputStream is = this.getClass().getResourceAsStream("/image/tray.png");//犀利！
+			Image img = null;
+			try {
+				img = ImageIO.read(is);
+			} catch (IOException e2) {
+				// TODO 自动生成的 catch 块
+				e2.printStackTrace();
+			}
 			/*BufferedImage img = null;
 			try {
 				img = ImageIO.read(Tray.class.getResourceAsStream("/tray.png"));
@@ -93,7 +102,7 @@ public class Tray {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					// TODO 自动生成的方法存根
-					SendMsg sm = new SendMsg("172.18.35.39");
+					SendMsg sm = new SendMsg();
 				}
 				
 			});

@@ -18,7 +18,7 @@ public class ScreenShotThread implements Runnable {
 	}
 	public void run() {
 		while(true){
-			ConnectServer cs = new ConnectServer("172.18.35.39", 8887);
+			ConnectServer cs = new ConnectServer("172.22.11.116", 8004);
 			if(cs.isConnected()){
 				Socket s = cs.getSocket();
 				BufferedImage bi = sc.screenShot();
@@ -35,7 +35,7 @@ public class ScreenShotThread implements Runnable {
 			}
 			else continue;
 			try {
-				Thread.sleep(500);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				// TODO 自动生成的 catch 块
 				e.printStackTrace();
